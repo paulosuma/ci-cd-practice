@@ -1,0 +1,23 @@
+name: Python lint
+description: Run ruff lint and format checks.
+
+inputs:
+  python-version:
+    description: Python version to install
+    default: "3.12"
+  path:
+    description: Path to check
+    default: .
+
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/setup-python-env
+      with:
+        python-version: ${{ inputs.python-version }}
+    - name: Ruff lint
+      shell: bash
+      run: ruff check "${{ inputs.path }}"
+    - name: Ruff format check
+      shell: bash
+      run: ruff format --check "${{ inputs.path }}"
