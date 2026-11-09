@@ -23,3 +23,7 @@ jobs:
       - uses: ./.github/actions/python-test
         with:
             python-version: ${{ matrix.python }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ matrix.python }}
+          path: coverage.xml

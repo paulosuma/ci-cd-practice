@@ -8,13 +8,13 @@ Status legend: [x] done · [ ] todo
 
 ## Stage 0: Bootstrap (scaffolded)
 - [x] App, tests, lint, `make check`, Dockerfile, `ci.yml` with lint + test jobs
-- [ ] Create the GitHub repo: `gh repo create ci-cd-practice --public --source=. --push`
-- [ ] Watch the first run: Actions tab, and `gh run watch`
+- [x] Create the GitHub repo: `gh repo create ci-cd-practice --public --source=. --push`
+- [x] Watch the first run: Actions tab, and `gh run watch`
 - **Break it:** push a lint error, then a failing test. Find the log line that tells you why.
 
 ## Stage 1: Fundamentals of CI
 Goal: read workflow logs fluently; fast, reliable feedback.
-- [ ] Test matrix across Python 3.10/3.11/3.12 (`strategy.matrix`)
+- [x] Test matrix across Python 3.10/3.11/3.12 (`strategy.matrix`)
 - [ ] Upload coverage report as an artifact (`actions/upload-artifact`)
 - [ ] Add `concurrency:` to cancel superseded runs
 - [ ] Add a status badge to the README
@@ -82,5 +82,6 @@ Goal: automatic deploys with safety.
 
 ## Monitoring habits (do these every push)
 - `gh run list --limit 5` · `gh run watch` · `gh run view --log-failed`
+- `gh pr checks` for a PR snapshot (no `--watch` flag in older `gh`; use `gh run watch` or `watch -n 5 gh pr checks`)
 - Re-run a failed job; decide if it was flaky or real
 - Check the run's duration trend weekly
