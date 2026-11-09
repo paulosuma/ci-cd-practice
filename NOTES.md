@@ -35,12 +35,22 @@ A journal of what broke, how I diagnosed it, and what I changed.
 - Artifacts expire after 90 days by default (`retention-days:` changes that).
 - Open question: steps after a failed step are skipped by default, so a failing test run won't upload coverage. `if: always()` changes that.
 
+### Step names
+- `name:` on a `uses:` step replaces the raw `Run actions/checkout@v4` label in the run's step list with something readable (`Check out code`, `Lint (ruff)`).
+- Step names only show up inside a run. The check names in the PR checks list come from the job key (`lint`, `test (3.10)`), so they didn't change. Renaming those needs a job-level `name:`, which matters for branch protection in Stage 2.
+- Expressions work in names: `Test (pytest, Python ${{ matrix.python }})`.
+
+### Concurrency
+- `concurrency:` with `group: ${{ github.workflow }}-${{ github.ref }}` and `cancel-in-progress: true` cancels an older run when a newer one starts on the same branch or PR.
+- The group is just a key. Including `github.ref` means each branch has its own group, so branches don't cancel each other. Without it, every branch would share one group.
+- Seen in practice on PR #7: two quick pushes gave a `cancelled` run (4s) and then a `success` run for the second push.
+- Caveat for later: cancelling on `main` can interrupt a deploy. Use `cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}` once I have deploys (Stage 5).
+
 ## Git habits I picked up
 - Create the branch first: `git switch -c <name>`. I committed on `main` once by accident and had to move the commit.
 - `git branch -f main origin/main` can't run while I'm on `main`. Switch away first.
 - Squash merge keeps `main` clean even when a PR has "intentional break" commits.
 
 ## Next
-- `concurrency:` to cancel superseded runs
 - Status badge in the README
 - `needs: lint` on the test job, then compare total time
