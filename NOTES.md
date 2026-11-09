@@ -46,11 +46,27 @@ A journal of what broke, how I diagnosed it, and what I changed.
 - Seen in practice on PR #7: two quick pushes gave a `cancelled` run (4s) and then a `success` run for the second push.
 - Caveat for later: cancelling on `main` can interrupt a deploy. Use `cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}` once I have deploys (Stage 5).
 
+### Badges and Codecov
+- The CI badge is `.../actions/workflows/ci.yml/badge.svg`. Adding `?branch=main` pins it to `main`. Without it, it shows the default branch's latest run anyway, but being explicit makes the intent clear and lets me point it at another branch.
+- Codecov needs a `CODECOV_TOKEN` repo secret (set with `gh secret set CODECOV_TOKEN`, never pasted into a file). The workflow reads it as `${{ secrets.CODECOV_TOKEN }}`.
+- Upload once per run with `if: matrix.python == '3.12'`, since all matrix cells measure the same code. `if:` on a step skips it for the other cells.
+- `fail_ci_if_error: true` makes a failed upload fail the build instead of hiding it.
+- The Codecov badge only shows a number once `main` has had an upload.
+- Secrets aren't available to PRs from forks. Mine are same-repo, so it works.
+
+### `needs:` (job ordering)
+- `needs: lint` on the `test` job makes the test jobs wait for lint.
+- Time on PR #10: 46s total with `needs`, against about 30s with lint and test in parallel. Lint is about 10s, so that's the cost of waiting.
+- Trade-off: parallel is faster when everything is green. Sequential saves runner minutes when lint fails, because the `test` jobs are skipped instead of run.
+- A skipped job is not a failed one. Check how branch protection treats a skipped required check in Stage 2.
+- Mistake to avoid: `needs:` is a key of the job (next to `runs-on:`), not of a step. I once pasted it at the bottom of the file under the steps, which made invalid YAML.
+
 ## Git habits I picked up
 - Create the branch first: `git switch -c <name>`. I committed on `main` once by accident and had to move the commit.
 - `git branch -f main origin/main` can't run while I'm on `main`. Switch away first.
 - Squash merge keeps `main` clean even when a PR has "intentional break" commits.
+- `gh pr merge <n> --squash --delete-branch` also removes the local branch and returns me to `main`.
+- Paste into the right place: a block copied into the wrong indentation is the most common YAML mistake. Read `git diff` before committing.
 
 ## Next
-- Status badge in the README
-- `needs: lint` on the test job, then compare total time
+- Stage 2: protect `main` (branch protection, required checks, CODEOWNERS, coverage threshold)

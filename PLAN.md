@@ -17,8 +17,8 @@ Goal: read workflow logs fluently; fast, reliable feedback.
 - [x] Test matrix across Python 3.10/3.11/3.12 (`strategy.matrix`)
 - [x] Upload coverage report as an artifact (`actions/upload-artifact`)
 - [x] Add `concurrency:` to cancel superseded runs
-- [ ] Add a status badge to the README
-- [ ] Add `needs:` so `test` only runs after `lint` passes; compare total time
+- [x] Add a status badge to the README
+- [x] Add `needs:` so `test` only runs after `lint` passes; compare total time
 - **Break it:** make one matrix cell fail; observe `fail-fast` behavior.
 
 ## Stage 2: Protect main
