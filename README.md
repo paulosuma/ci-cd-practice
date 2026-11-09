@@ -1,5 +1,7 @@
 # CI/CD Practice
 
+[![CI](https://github.com/paulosuma/ci-cd-practice/actions/workflows/ci.yml/badge.svg)](https://github.com/paulosuma/ci-cd-practice/actions/workflows/ci.yml)
+
 A tiny Flask service used as a vehicle for learning CI/CD with GitHub Actions.
 The app is deliberately boring; the pipeline is the point. See [PLAN.md](PLAN.md).
 
