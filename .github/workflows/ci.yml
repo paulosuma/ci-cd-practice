@@ -37,3 +37,12 @@ jobs:
         with:
           name: coverage-${{ matrix.python }}
           path: coverage.xml
+
+      - name: Upload coverage to Codecov
+        # one upload per run is enough; the matrix cells measure the same code
+        if: matrix.python == '3.12'
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.xml
+          fail_ci_if_error: true
