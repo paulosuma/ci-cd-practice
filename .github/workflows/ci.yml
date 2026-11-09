@@ -20,6 +20,7 @@ jobs:
         uses: ./.github/actions/python-lint
 
   test:
+    needs: lint
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
