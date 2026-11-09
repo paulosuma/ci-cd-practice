@@ -9,8 +9,11 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4   # must come first: local actions live in the repo
-      - uses: ./.github/actions/python-lint
+      # checkout must come first: local actions live in the repo
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Lint (ruff)
+        uses: ./.github/actions/python-lint
 
   test:
     runs-on: ubuntu-latest
@@ -19,11 +22,14 @@ jobs:
       matrix:
         python: ["3.10", "3.11", "3.12"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/python-test
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Test (pytest, Python ${{ matrix.python }})
+        uses: ./.github/actions/python-test
         with:
-            python-version: ${{ matrix.python }}
-      - uses: actions/upload-artifact@v4
+          python-version: ${{ matrix.python }}
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-${{ matrix.python }}
           path: coverage.xml
