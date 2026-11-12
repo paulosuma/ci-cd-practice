@@ -23,9 +23,9 @@ Goal: read workflow logs fluently; fast, reliable feedback.
 
 ## Stage 2: Protect main
 Goal: CI as a gate, not a suggestion.
-- [ ] Branch protection / ruleset: require PR, require `lint` and `test` checks
-- [ ] Add `CODEOWNERS` and a PR template
-- [ ] Add a coverage threshold (`--cov-fail-under=90`)
+- [x] Branch protection / ruleset: require PR, require `lint` and `test` checks
+- [x] Add `CODEOWNERS` and a PR template
+- [x] Add a coverage threshold (`--cov-fail-under=90`)
 - **Break it:** try pushing directly to main; try merging a red PR.
 
 ## Stage 3: Build and package (CI → artifact)
