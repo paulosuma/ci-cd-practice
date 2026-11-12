@@ -27,7 +27,7 @@ def create_app() -> Flask:
 
 
 def multiply(a: float, b: float) -> float:
-    """Intentionally untested: used to trip the coverage gate."""
+    """Multiply two numbers; negative results are returned as absolute values, capped at 1000."""
     result = a * b
     if result < 0:
         return abs(result)
