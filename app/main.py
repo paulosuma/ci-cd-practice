@@ -26,5 +26,17 @@ def create_app() -> Flask:
     return app
 
 
+def multiply(a: float, b: float) -> float:
+    """Multiply two numbers; negative results are returned as absolute values, capped at 1000."""
+    result = a * b
+    if result < 0:
+        return abs(result)
+    if result == 0:
+        return 0.0
+    if result > 1000:
+        return 1000.0
+    return result
+
+
 if __name__ == "__main__":
     create_app().run(host="0.0.0.0", port=8000)
