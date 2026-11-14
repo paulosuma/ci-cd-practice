@@ -1,0 +1,27 @@
+version: 2
+updates:
+  # Python deps in requirements.txt / requirements-dev.txt
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # one PR for all minor/patch bumps instead of one per package
+      python-minor-patch:
+        update-types: [minor, patch]
+
+  # uses: lines in .github/workflows and local actions
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
+
+  # FROM line in the Dockerfile
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
