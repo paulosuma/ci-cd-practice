@@ -30,11 +30,11 @@ Goal: CI as a gate, not a suggestion.
 
 ## Stage 3: Build and package (CI → artifact)
 Goal: produce something deployable.
-- [ ] Workflow job: build Docker image with `docker/build-push-action`
-- [ ] Push to GHCR (`ghcr.io`) using `GITHUB_TOKEN` and `permissions: packages: write`
-- [ ] Tag images with commit SHA and `latest`; understand why SHA is the real identity
-- [ ] Docker layer caching (`cache-from/to: type=gha`)
-- [ ] Smoke test: run the built container in CI and `curl /health`
+- [x] Workflow job: build Docker image with `docker/build-push-action`
+- [x] Push to GHCR (`ghcr.io`) using `GITHUB_TOKEN` and `permissions: packages: write`
+- [x] Tag images with commit SHA and `latest`; understand why SHA is the real identity
+- [x] Docker layer caching (`cache-from/to: type=gha`)
+- [x] Smoke test: run the built container in CI and `curl /health`
 - **Break it:** break the Dockerfile; make the container crash on start.
 
 ## Stage 4: Security and quality gates
