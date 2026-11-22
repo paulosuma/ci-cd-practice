@@ -5,4 +5,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app ./app
 USER nobody
 EXPOSE 8000
-CMD ["python", "-m", "app.does_not_exist"]
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "app.main:create_app()"]

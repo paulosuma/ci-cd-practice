@@ -104,5 +104,11 @@ A journal of what broke, how I diagnosed it, and what I changed.
 - The SHA tag identifies the exact source commit. `latest` is convenient for humans but is movable, so rollbacks and deployments should use a SHA.
 - GHCR pushes run only for a push to `main`; pull requests build and smoke test the image but do not publish it.
 
+### Deliberate startup break
+- A changed `Dockerfile` start command made the container build successfully but exit immediately.
+- The smoke test retried `/health`, saw connection failures, then ran `docker logs`.
+- The container log identified `/usr/local/bin/python: No module named app.does_not_exist`, confirming the failure came from the startup command rather than the HTTP endpoint or network mapping.
+- Restored the Gunicorn command that invokes `app.main:create_app()` on port 8000.
+
 ## Next
 - Stage 4: add dependency and container security gates.
